@@ -12,6 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.7.1</junit.version>
+        <main-class>ge.tsu.jnote.JNote</main-class>
     </properties>
 
     <dependencies>
@@ -57,11 +58,10 @@
                 <version>0.0.6</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
-                        <id>default-cli</id>
-                        <configuration>
-                            <mainClass>ge.tsu.jnote/ge.tsu.jnote.JNote</mainClass>
-                        </configuration>
+                        <goals>
+                            <goal>jlink</goal>
+                        </goals>
+                        <phase>package</phase>
                     </execution>
                 </executions>
                 <configuration>
