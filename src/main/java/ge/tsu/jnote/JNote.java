@@ -17,18 +17,35 @@ public class JNote extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         log.info("Application has started");
+
+        Parent aboutNode = loadAboutNode();
+
+        Parent mainNode = loadMainNode(stage, aboutNode);
+        Scene mainScene = new Scene(mainNode, 320, 240);
+        addStyle(mainScene);
+
+        addIcon(stage);
+        stage.setScene(mainScene);
+        stage.show();
+    }
+
+    private Parent loadAboutNode() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        try (var inputStream = JNote.class.getResourceAsStream("about.fxml")) {
+            return fxmlLoader.load(inputStream);
+        }
+    }
+
+    private Parent loadMainNode(Stage stage, Parent aboutNode) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent parent;
         try (var inputStream = JNote.class.getResourceAsStream("main.fxml")) {
             parent = fxmlLoader.load(inputStream);
         }
-        Scene scene = new Scene(parent, 320, 240);
-        addStyle(scene);
         MainController controller = fxmlLoader.getController();
         controller.initStage(stage);
-        addIcon(stage);
-        stage.setScene(scene);
-        stage.show();
+        controller.initAboutAlert(aboutNode);
+        return parent;
     }
 
     @Override

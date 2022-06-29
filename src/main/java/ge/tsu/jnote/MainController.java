@@ -3,6 +3,9 @@ package ge.tsu.jnote;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
@@ -22,6 +25,7 @@ public class MainController implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
     private Stage stage;
+    private Alert aboutAlert;
 
     private State state;
     private FileChooser fileChooser;
@@ -37,6 +41,13 @@ public class MainController implements Initializable {
                 state.pathProperty(),
                 new State.TitleConverter()
         );
+    }
+
+    public void initAboutAlert(Parent aboutNode) {
+        aboutAlert = new Alert(Alert.AlertType.NONE);
+        aboutAlert.setTitle("About JNote");
+        aboutAlert.getDialogPane().setContent(aboutNode);
+        aboutAlert.getButtonTypes().addAll(ButtonType.CLOSE);
     }
 
     @Override
@@ -105,6 +116,7 @@ public class MainController implements Initializable {
 
     public void onAboutClick(ActionEvent e) {
         log.debug("Clicked 'Help > About' menu button");
+        aboutAlert.showAndWait();
     }
 
 }
