@@ -19,11 +19,21 @@ public class JNote extends Application {
             parent = fxmlLoader.load(inputStream);
         }
         Scene scene = new Scene(parent, 320, 240);
+        addStyle(scene);
         MainController controller = fxmlLoader.getController();
         controller.initStage(stage);
         addIcon(stage);
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * We add style.css here and also in main.fxml file for development purposes.
+     *
+     * @param scene
+     */
+    private void addStyle(Scene scene) {
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
     }
 
     private void addIcon(Stage stage) throws IOException {

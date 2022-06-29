@@ -1,0 +1,10 @@
+/* Remove focused border */
+.text-area {
+    -fx-background-color: #fff;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 0, 0;
+}
+
+.text-area .content {
+    -fx-background-color: #fff;
+}

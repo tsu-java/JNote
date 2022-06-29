@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ge.tsu.jnote.MainController">
+<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ge.tsu.jnote.MainController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -51,7 +51,7 @@
         </MenuBar>
     </top>
     <center>
-        <TextArea fx:id="textArea" BorderPane.alignment="CENTER" />
+        <TextArea fx:id="textArea" stylesheets="@style.css" BorderPane.alignment="CENTER" />
     </center>
     <bottom>
         <HBox alignment="CENTER_RIGHT">
