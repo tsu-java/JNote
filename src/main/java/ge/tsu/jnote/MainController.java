@@ -7,6 +7,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +19,7 @@ import java.util.ResourceBundle;
 import static javafx.stage.FileChooser.ExtensionFilter;
 
 public class MainController implements Initializable {
+    private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
     private Stage stage;
 
@@ -28,6 +31,7 @@ public class MainController implements Initializable {
     public TextArea textArea;
 
     public void initStage(Stage stage) {
+        log.info("Called initStage(..)");
         this.stage = stage;
         stage.titleProperty().bindBidirectional(
                 state.pathProperty(),
@@ -37,6 +41,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        log.info("Called initialize(..)");
         state = new State();
 
         // Property bindings
@@ -55,10 +60,12 @@ public class MainController implements Initializable {
     }
 
     public void onNewClick(ActionEvent e) {
+        log.debug("Clicked 'File > New' menu button");
         state.clear();
     }
 
     public void onOpenClick(ActionEvent e) throws IOException {
+        log.debug("Clicked 'File > Open' menu button");
         fileChooser.setTitle("Open File");
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile != null && !selectedFile.isDirectory()) {
@@ -68,6 +75,7 @@ public class MainController implements Initializable {
     }
 
     public void onSaveClick(ActionEvent e) throws IOException {
+        log.debug("Clicked 'File > Save' menu button");
         if (state.getPath() == null) {
             fileChooser.setTitle("Save File");
             File selectedFile = fileChooser.showSaveDialog(stage);
@@ -81,6 +89,7 @@ public class MainController implements Initializable {
     }
 
     public void onSaveAsClick(ActionEvent e) throws IOException {
+        log.debug("Clicked 'File > Save As' menu button");
         fileChooser.setTitle("Save File");
         File selectedFile = fileChooser.showSaveDialog(stage);
         if (selectedFile != null) {
@@ -90,10 +99,12 @@ public class MainController implements Initializable {
     }
 
     public void onExitClick(ActionEvent e) {
+        log.debug("Clicked 'File > Exit' menu button");
         Platform.exit();
     }
 
     public void onAboutClick(ActionEvent e) {
+        log.debug("Clicked 'Help > About' menu button");
     }
 
 }
