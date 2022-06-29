@@ -6,13 +6,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class JNote extends Application {
+    private static final Logger log = LoggerFactory.getLogger(JNote.class);
 
     @Override
     public void start(Stage stage) throws IOException {
+        log.info("Application has started");
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent parent;
         try (var inputStream = JNote.class.getResourceAsStream("main.fxml")) {
@@ -25,6 +29,11 @@ public class JNote extends Application {
         addIcon(stage);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void stop() {
+        log.info("Application has stopped");
     }
 
     /**
