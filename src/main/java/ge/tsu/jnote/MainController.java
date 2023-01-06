@@ -6,10 +6,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.fxmisc.richtext.InlineCssTextArea;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,8 @@ import static javafx.stage.FileChooser.ExtensionFilter;
 public class MainController implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
+    private final State.TextConverter textConverter = new State.TextConverter();
+
     private Stage stage;
     private Alert aboutAlert;
 
@@ -32,7 +35,8 @@ public class MainController implements Initializable {
 
     public MenuItem menuItemSave;
     public MenuItem menuItemSaveAs;
-    public TextArea textArea;
+    public InlineCssTextArea textArea;
+    public Label totalLines;
 
     public void initStage(Stage stage) {
         log.info("Called initStage(..)");
@@ -55,13 +59,19 @@ public class MainController implements Initializable {
         log.info("Called initialize(..)");
         state = new State();
 
-        // Property bindings
-        menuItemSave.disableProperty().bind(textArea.textProperty().isEmpty());
-        menuItemSaveAs.disableProperty().bind(textArea.textProperty().isEmpty());
-        textArea.textProperty().bindBidirectional(
-                state.textProperty(),
-                new State.TextConverter()
-        );
+        // Listeners
+        textArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            menuItemSave.setDisable(newValue.isEmpty());
+            menuItemSaveAs.setDisable(newValue.isEmpty());
+
+            // Update state's text property
+            state.setText(textConverter.fromString(newValue));
+        });
+
+        // Display total
+        textArea.getParagraphs().sizeProperty().addListener((observable, oldValue, newValue) -> {
+            totalLines.setText(String.format("Lines: %d", textArea.getParagraphs().size()));
+        });
 
         // File chooser
         fileChooser = new FileChooser();
@@ -72,7 +82,8 @@ public class MainController implements Initializable {
 
     public void onNewClick(ActionEvent e) {
         log.debug("Clicked 'File > New' menu button");
-        state.clear();
+        textArea.replaceText("");
+        state.setPath(null);
     }
 
     public void onOpenClick(ActionEvent e) throws IOException {

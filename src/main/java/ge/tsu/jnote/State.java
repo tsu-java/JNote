@@ -37,11 +37,6 @@ public class State {
         this.text.set(text);
     }
 
-    public void clear() {
-        setPath(null);
-        setText(null);
-    }
-
     public static class TitleConverter extends StringConverter<Path> {
         @Override
         public String toString(Path path) {
